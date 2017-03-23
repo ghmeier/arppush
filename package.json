@@ -1,0 +1,27 @@
+{
+  "name": "arppush",
+  "version": "1.0.0",
+  "description": "Push arp scans to a url",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ghmeier/arppush.git"
+  },
+  "keywords": [
+    "arp-scan",
+    "arp"
+  ],
+  "author": "Garret Meier <meier.garret@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ghmeier/arppush/issues"
+  },
+  "homepage": "https://github.com/ghmeier/arppush#readme",
+  "dependencies": {
+    "arpscan": "^0.5.0",
+    "request": "^2.81.0"
+  }
+}
