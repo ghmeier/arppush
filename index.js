@@ -10,7 +10,7 @@ setInterval(() => {
         sudo: true
     })
 }, 5000);
- 
+
 const onResult = (err, data) => {
     if(err) {
         console.log(err);
@@ -29,10 +29,8 @@ const onResult = (err, data) => {
         body: JSON.stringify(obj)
     }, (err, res, body) => {
         if (err) {
-            console.log(err);
             return;
         }
-
-        console.log('Posted ' + data.length + ' addresses')
+        console.log('Posted ' + Object.keys(data).length + ' addresses')
     });
 }
