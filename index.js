@@ -2,21 +2,28 @@ const arpscanner = require('arpscan');
 const request = require('request');
 
 const url = process.argv[2] || 'http://localhost:8080/';
+let scanning = false;
 
-setInterval(() => {
+const scan = () => {
+    if (scanning) {
+        return;
+    }
+
     console.log("Scanning...");
 
+    scanning = true;
     arpscanner(onResult, {
         interface: 'wlp3s0',
-        args: ['--localnet'],
+        args: ['--localnet', '--retry=1', '--timeout=2', '--interval=5', '--ignoredups', '--backoff=1.2'],
         sudo: true
     })
-}, 5000);
+}
 
 const onResult = (err, data) => {
+    scanning = false;
     if(err) {
-        console.log(err);
-        return;
+        //console.log(data, err);
+        //Try to send anyway
     }
 
     let obj = {};
@@ -25,6 +32,7 @@ const onResult = (err, data) => {
         //console.log(data[i].mac, data[i].vendor)
     }
 
+    scan();
     request({
         url: url,
         method: 'POST',
@@ -34,6 +42,9 @@ const onResult = (err, data) => {
         if (err) {
             return;
         }
+
         console.log('Posted ' + Object.keys(data).length + ' addresses')
     });
 }
+
+scan();
