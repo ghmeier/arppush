@@ -4,7 +4,9 @@ const request = require('request');
 const url = process.argv[2] || 'http://localhost:8080/';
 
 setInterval(() => {
-        arpscanner(onResult, {
+    console.log("Scanning...");
+
+    arpscanner(onResult, {
         interface: 'wlp3s0',
         args: ['--localnet'],
         sudo: true
@@ -20,6 +22,7 @@ const onResult = (err, data) => {
     let obj = {};
     for (let i=0; i<data.length; i++) {
         obj[data[i].mac] = data[i];
+        //console.log(data[i].mac, data[i].vendor)
     }
 
     request({
