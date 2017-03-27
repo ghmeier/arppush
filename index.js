@@ -28,8 +28,9 @@ const onResult = (err, data) => {
 
     let obj = {};
     for (let i=0; i<data.length; i++) {
-        obj[data[i].mac] = data[i];
-        //console.log(data[i].mac, data[i].vendor)
+        var mac = data[i].mac.split(' ')[0];
+        obj[mac] = data[i];
+        //console.log(mac, data[i].vendor);
     }
 
     scan();
