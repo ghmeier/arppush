@@ -30,7 +30,9 @@ const onResult = (err, data) => {
     for (let i=0; i<data.length; i++) {
         var mac = data[i].mac.split(' ')[0];
         obj[mac] = data[i];
-        //console.log(mac, data[i].vendor);
+        if (data[i].ip === "10.26.50.249") {
+            console.log(mac, data[i].ip);
+        }
     }
 
     scan();
