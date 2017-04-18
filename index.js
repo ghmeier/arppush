@@ -1,7 +1,19 @@
 const arpscanner = require('arpscan');
 const request = require('request');
 
-const url = process.argv[2] || 'http://localhost:8080/';
+
+let config = {};
+
+try {
+    config = require('./config.json');
+} catch (err) {
+    if (err) {
+        console.log(err);
+        console.log('Unable to load config, using defaults');
+    }
+    config.url = 'http://localhost:8080/';
+    config.ifc = 'eth0';
+}
 let scanning = false;
 
 const scan = () => {
@@ -13,7 +25,7 @@ const scan = () => {
 
     scanning = true;
     arpscanner(onResult, {
-        interface: 'wlp3s0',
+        interface: config.ifc,
         args: ['--localnet', '--retry=1', '--timeout=2', '--interval=5', '--ignoredups', '--backoff=1.2'],
         sudo: true
     })
@@ -30,14 +42,11 @@ const onResult = (err, data) => {
     for (let i=0; i<data.length; i++) {
         var mac = data[i].mac.split(' ')[0];
         obj[mac] = data[i];
-        if (data[i].ip === "10.26.50.249") {
-            console.log(mac, data[i].ip);
-        }
     }
 
     scan();
     request({
-        url: url,
+        url: config.url,
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(obj)
